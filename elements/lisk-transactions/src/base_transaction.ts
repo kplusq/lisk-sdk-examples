@@ -238,9 +238,11 @@ export abstract class BaseTransaction {
 
 	public validate(): TransactionResponse {
 		const errors = [...this._validateSchema(), ...this.validateAsset()];
+
 		if (errors.length > 0) {
 			return createResponse(this.id, errors);
 		}
+
 		const transactionBytes = this.getBasicBytes();
 
 		const {
@@ -547,7 +549,6 @@ export abstract class BaseTransaction {
 			this.id,
 			validator.errors,
 		) as TransactionError[];
-
 		if (
 			!errors.find(
 				(err: TransactionError) => err.dataPath === '.senderPublicKey',
@@ -559,6 +560,7 @@ export abstract class BaseTransaction {
 				this.senderId,
 				this.senderPublicKey,
 			);
+
 			if (senderIdError) {
 				errors.push(senderIdError);
 			}

@@ -165,7 +165,8 @@ export const isValidTransferData = (data: string): boolean =>
 
 export const validateFee = (data: string) =>
 	isNumberString(data) &&
-	isGreaterThanZero(new BigNum(data)) &&
+	// FIXME: Disabled temporarily to allow no fee transactions for custom tx testing
+	// isGreaterThanZero(new BigNum(data)) &&
 	!isGreaterThanMaxTransactionAmount(new BigNum(data));
 
 export const isValidInteger = (num: unknown) =>

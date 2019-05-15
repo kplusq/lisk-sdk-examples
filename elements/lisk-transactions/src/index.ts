@@ -39,6 +39,7 @@ import {
 	checkPublicKeysForDuplicates,
 	convertBeddowsToLSK,
 	convertLSKToBeddows,
+	createBaseTransaction,
 	getTransactionBytes,
 	getTransactionHash,
 	getTransactionId,
@@ -56,6 +57,8 @@ import {
 	validatePublicKey,
 	validatePublicKeys,
 	validateTransaction,
+	validateTransferAmount,
+	validateNonTransferAmount,
 	validator,
 	verifyAmountBalance,
 	verifyTransaction,
@@ -63,6 +66,7 @@ import {
 
 const exposedUtils = {
 	BigNum,
+	createBaseTransaction,
 	convertBeddowsToLSK,
 	convertLSKToBeddows,
 	isValidInteger,
@@ -76,7 +80,8 @@ const exposedUtils = {
 	validatePublicKey,
 	validatePublicKeys,
 	verifyAmountBalance,
-
+	validateTransferAmount,
+	validateNonTransferAmount,
 	// TODO: Deprecated
 	signTransaction,
 	getTransactionBytes,
