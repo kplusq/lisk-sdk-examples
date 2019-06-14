@@ -1,6 +1,6 @@
 const createSendableTransaction = require('./create_sendable_transaction_base_trs');
 const HelloTransaction = require('../hello_world/hello_transaction');
-const CashbackTransaction = require('../src/transactions/cashback_transaction');
+// const CashbackTransaction = require('../src/transactions/cashback_transaction');
 
 /**
  *  To send printed transaction:

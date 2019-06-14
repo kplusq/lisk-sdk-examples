@@ -3,7 +3,7 @@ const {
 	BigNum,
 } = require('lisk-sdk');
 
-
+console.log(TransferTransaction);
 class CashbackTransaction extends TransferTransaction {
 
 	static get TYPE () {
