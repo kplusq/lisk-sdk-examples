@@ -10,49 +10,47 @@ class HelloTransaction extends BaseTransaction {
 	}
 
 	applyAsset(store) {
-        const errors = [];
-        const sender = store.account.get(this.senderId);
-        const newObj = { ...sender, asset: { hello: this.asset.hello } };
-        store.account.set(sender.address, newObj);
-        if (sender.asset && sender.asset.hello) {
-            errors.push(
-                new TransactionError(
-                    'You cannot send a hello transaction multiple times',
-                    this.id,
-                    '.asset.hello',
-                    this.amount.toString()
-                )
-            );
-        } else {
-            const newObj = { ...sender, asset: { hello: this.asset.hello } };
-            store.account.set(sender.address, newObj);
-        }
-        return errors; // array of TransactionErrors, returns empty array if no errors are thrown
+		const sender = store.account.get(this.senderId);
+		
+		if (sender.asset && sender.asset.hello) {
+			sender.asset.hello += 1;
+		} else {
+			sender.asset = { hello = 1 };
+		}
+
+		store.account.set(this.senderId, Object.assign({}, sender));
+	
+        return []; // array of TransactionErrors, returns empty array if no errors are thrown
 	}
 
 	undoAsset(store) {
 		const sender = store.account.get(this.senderId);
-		const oldObj = { ...sender, asset: null };
-		store.account.set(sender.address, oldObj);
+		
+		if (sender.asset.hello > 1) {
+			sender.asset.hello -= 1;
+		} else {
+			sender.asset = null;
+		}
+		store.account.set(sender.address, Object.assign({}, sender));
 		return [];
 	}
 
 	validateAsset() {
 		const errors = [];
-		if (!this.asset.hello || typeof this.asset.hello !== 'string' || this.asset.hello.length > 64) {
+		if (!this.asset.hello || this.asset.hello !== 1) {
 			errors.push(
 				new TransactionError(
 					'Invalid "asset.hello" defined on transaction',
 					this.id,
 					'.asset.hello',
 					this.asset.hello,
-					'A string value no longer than 64 characters',
+					'"asset.hello" should always equal 1',
 				)
 			);
 		}
 		return errors;
 	}
-	// Server
+	
 	async prepare(store) {
 		await store.account.cache([
 			{
